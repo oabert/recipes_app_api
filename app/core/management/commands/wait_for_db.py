@@ -11,7 +11,7 @@ class Command(BaseCommand):
     """Django command to wait for db"""
 
     def handle(self, *args, **options):
-        """Entry point for command"""
+        """Entrypoint for command"""
         self.stdout.write('Waiting for db')
         db_up = False
         while db_up is False:
@@ -22,4 +22,4 @@ class Command(BaseCommand):
                 self.stdout.write('Db not available, waiting 1 sec...')
                 time.sleep(1)
 
-        self.stdout.write(self.style.SUCCESS('Db availavle!'))
+        self.stdout.write(self.style.SUCCESS('Db available!'))
