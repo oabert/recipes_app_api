@@ -39,6 +39,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
     def _params_to_ints(self, qs):
         """Convert a list of strings to integers"""
         return [int(str_id) for str_id in qs.split(',')]
@@ -87,7 +88,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             status=status.HTTP_400_BAD_REQUEST
             )
 
-
 @extend_schema_view(
     list=extend_schema(
         parameters=[
@@ -101,7 +101,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
 )
 
-
 class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
                             mixins.UpdateModelMixin,
                             mixins.ListModelMixin,
@@ -109,6 +108,7 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
     """Base view set for recipe attributes"""
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         """Filter querset to authenticated user"""
         assigned_only = bool(
