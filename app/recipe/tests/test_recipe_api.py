@@ -28,9 +28,11 @@ def detail_url(recipe_id):
     """Create and return a recipe detail URL"""
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def image_upload_url(recipe_id):
     """Create and return an image upload URL"""
     return reverse('recipe:recipe-upload-image', args=[recipe_id])
+
 
 def create_recipe(user, **params):
     """Create and return sample recipe"""
@@ -45,6 +47,7 @@ def create_recipe(user, **params):
 
     recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
+
 
 def create_user(**params):
     """Create and return a new user"""
@@ -349,7 +352,7 @@ class PrivateRecipeAPITest(TestCase):
         """Test creating an ingredient when updating a recipe"""
         recipe = create_recipe(user=self.user)
 
-        payload = {'ingredients':[{'name': 'Limes'}]}
+        payload = {'ingredients': [{'name': 'Limes'}]}
         url = detail_url(recipe.id)
 
         res = self.client.patch(url, payload, format='json')
@@ -367,7 +370,7 @@ class PrivateRecipeAPITest(TestCase):
         ingredient2 = Ingredient.objects.create(user=self.user, name='Salt')
 
         payload = {
-            'ingredients':[{'name': 'Salt'}]
+            'ingredients': [{'name': 'Salt'}]
         }
         url = detail_url(recipe.id)
 
@@ -452,7 +455,7 @@ class ImageUploadTest(TestCase):
         """Test uploadim=ng an image to the recipe"""
         url = image_upload_url(self.recipe.id)
         with tempfile.NamedTemporaryFile(suffix='.jpg') as image_file:
-            img = Image.new('RGB', (10,10))
+            img = Image.new('RGB', (10, 10))
             img.save(image_file, format='JPEG')
             image_file.seek(0)
             payload = {'image': image_file}

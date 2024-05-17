@@ -100,4 +100,4 @@ class RecipeImageSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = ['id', 'image']
         read_only_fields = ['id']
-        extra_kwards = {'image': {'required':'True'}}
+        extra_kwards = {'image': {'required': 'True'}}
