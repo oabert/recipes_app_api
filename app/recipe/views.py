@@ -35,6 +35,7 @@ from recipe import serializers
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs"""
+
     serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
@@ -94,9 +95,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         parameters=[
             OpenApiParameter(
                 'assigned_only',
-                OpenApiTypes.INT, enum=[0,1],
+                OpenApiTypes.INT,
+                enum=[0,1],
                 description='Filter by items assigned to recipe',
-                )
+            )
         ]
     )
 )
@@ -107,6 +109,7 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
                             mixins.ListModelMixin,
                             viewsets.GenericViewSet):
     """Base view set for recipe attributes"""
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -126,6 +129,7 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
 
 class TagViewSet(BaseRecipeAttrViewSet):
     """Manage tags in the db"""
+
     serializer_class = serializers.TagSerializer
     queryset = Tag.objects.all()
 
