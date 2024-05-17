@@ -9,9 +9,11 @@ from django.contrib.auth import get_user_model
 
 from core import models
 
+
 def create_user(email='user@example.com', password='pass123'):
     """Create and return a user"""
     return get_user_model().objects.create_user(email, password)
+
 
 class ModelTests(TestCase):
     """Test models"""
@@ -31,7 +33,7 @@ class ModelTests(TestCase):
     def test_new_user_email_normalize(self):
         """Test email is normalized for new users."""
 
-        sample_emails=[
+        sample_emails = [
             ['test1@EXAMPLE.com', 'test1@example.com'],
             ['Test2@Example.com', 'Test2@example.com'],
             ['TEST3@EXAMPLE.com', 'TEST3@example.com'],
@@ -81,7 +83,9 @@ class ModelTests(TestCase):
     def test_create_ingredient(self):
         """Test create an ingredient successful"""
         user = create_user()
-        ingredient = models.Ingredient.objects.create(user=user, name='Ingredient1')
+        ingredient = models.Ingredient.objects.create(
+            user=user, name='Ingredient1'
+            )
 
         self.assertEqual(str(ingredient), ingredient.name)
 

@@ -23,6 +23,7 @@ from recipe.serializers import (
 
 RECIPES_URL = reverse('recipe:recipe-list')
 
+
 def detail_url(recipe_id):
     """Create and return a recipe detail URL"""
     return reverse('recipe:recipe-detail', args=[recipe_id])
@@ -48,6 +49,7 @@ def create_recipe(user, **params):
 def create_user(**params):
     """Create and return a new user"""
     return get_user_model().objects.create_user(**params)
+
 
 class PublicRecipeAPITest(TestCase):
     """Test unauthenticated API request"""
@@ -98,7 +100,6 @@ class PrivateRecipeAPITest(TestCase):
         serializer = RecipeSerializer(recipe, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
-
 
     def test_get_recipe_detail(self):
         """Test get recipe detail"""
@@ -155,11 +156,11 @@ class PrivateRecipeAPITest(TestCase):
             description='Sample recipe descriprtion',
         )
         payload = {
-        'title': 'New recipe title',
-        'time_minutes': 10,
-        'price': Decimal('5.99'),
-        'description': 'New recipe description',
-        'link': 'http://example.com/new-recipe.pdf'
+            'title': 'New recipe title',
+            'time_minutes': 10,
+            'price': Decimal('5.99'),
+            'description': 'New recipe description',
+            'link': 'http://example.com/new-recipe.pdf'
         }
 
         url = detail_url(recipe.id)
@@ -214,10 +215,10 @@ class PrivateRecipeAPITest(TestCase):
     def test_create_recipe_with_new_tags(self):
         """Test creating a recipe with new tags"""
         payload = {
-        'title': 'Thai Prawn Curry',
-        'time_minutes': 22,
-        'price': Decimal('5.25'),
-        'tags': [{'name':'thai'}, {'name':'Dinner'}],
+            'title': 'Thai Prawn Curry',
+            'time_minutes': 22,
+            'price': Decimal('5.25'),
+            'tags': [{'name': 'thai'}, {'name': 'Dinner'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -240,7 +241,7 @@ class PrivateRecipeAPITest(TestCase):
             'title': 'Pongal',
             'time_minutes': 22,
             'price': Decimal('5.25'),
-            'tags': [{'name':'Indian'}, {'name':'Breakfast'}]
+            'tags': [{'name': 'Indian'}, {'name': 'Breakfast'}]
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -303,7 +304,7 @@ class PrivateRecipeAPITest(TestCase):
             'title': 'Nachos Suprime',
             'time_minutes': 30,
             'price': Decimal('12.25'),
-            'ingredients': [{'name':'Nahcos'}, {'name':'Beef'}]
+            'ingredients': [{'name': 'Nahcos'}, {'name': 'Beef'}]
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -326,7 +327,7 @@ class PrivateRecipeAPITest(TestCase):
             'title': 'Lemon tart',
             'time_minutes': 20,
             'price': Decimal('10.00'),
-            'ingredients': [{'name':'Lemon'}, {'name':'Sugar'}]
+            'ingredients': [{'name': 'Lemon'}, {'name': 'Sugar'}]
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -366,7 +367,7 @@ class PrivateRecipeAPITest(TestCase):
         ingredient2 = Ingredient.objects.create(user=self.user, name='Salt')
 
         payload = {
-            'ingredients':[{'name':'Salt'}]
+            'ingredients':[{'name': 'Salt'}]
         }
         url = detail_url(recipe.id)
 
@@ -381,7 +382,7 @@ class PrivateRecipeAPITest(TestCase):
         recipe = create_recipe(user=self.user)
         recipe.ingredients.add(ingredient)
 
-        payload = {'ingredients':[]}
+        payload = {'ingredients': []}
         url = detail_url(recipe.id)
 
         res = self.client.patch(url, payload, format='json')
@@ -399,7 +400,7 @@ class PrivateRecipeAPITest(TestCase):
         r2.tags.add(tag2)
         r3 = create_recipe(user=self.user, title='Apple cidar')
 
-        params = {'tags':f'{tag1.id},{tag2.id}'}
+        params = {'tags': f'{tag1.id},{tag2.id}'}
         res = self.client.get(RECIPES_URL, params)
 
         s1 = RecipeSerializer(r1)
@@ -420,7 +421,7 @@ class PrivateRecipeAPITest(TestCase):
         r2.ingredients.add(ing2)
         r3 = create_recipe(user=self.user, title='Apple cidar')
 
-        params = {'ingredients':f'{ing1.id},{ing2.id}'}
+        params = {'ingredients': f'{ing1.id},{ing2.id}'}
         res = self.client.get(RECIPES_URL, params)
 
         s1 = RecipeSerializer(r1)
@@ -430,6 +431,7 @@ class PrivateRecipeAPITest(TestCase):
         self.assertIn(s1.data, res.data)
         self.assertIn(s2.data, res.data)
         self.assertNotIn(s3.data, res.data)
+
 
 class ImageUploadTest(TestCase):
     """Test for the image uploas API"""

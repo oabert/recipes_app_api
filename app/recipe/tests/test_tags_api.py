@@ -15,6 +15,7 @@ from recipe.serializers import TagSerializer
 
 TAGS_URL = reverse('recipe:tag-list')
 
+
 def detail_url(tag_id):
     """Create and return tag detail url"""
     return reverse('recipe:tag-detail', args=[tag_id])
@@ -23,6 +24,7 @@ def create_user(email='user@example.com', password='pass123'):
     """Create and return user"""
 
     return get_user_model().objects.create_user(email=email, password=password)
+
 
 class PublicTagsApiTests(TestCase):
     """Test unauthenticated API request"""
@@ -107,7 +109,7 @@ class PrivateTagsApiTest(TestCase):
             user=self.user,
         )
         recipe.tags.add(tag1)
-        res = self.client.get(TAGS_URL, {'assigned_only':1})
+        res = self.client.get(TAGS_URL, {'assigned_only': 1})
         s1 = TagSerializer(tag1)
         s2 = TagSerializer(tag2)
 
@@ -132,6 +134,6 @@ class PrivateTagsApiTest(TestCase):
         )
         recipe1.tags.add(tag)
         recipe2.tags.add(tag)
-        res = self.client.get(TAGS_URL, {'assigned_only':1})
+        res = self.client.get(TAGS_URL, {'assigned_only': 1})
 
         self.assertEqual(len(res.data), 1)
