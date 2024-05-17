@@ -41,6 +41,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+
     def _params_to_ints(self, qs):
         """Convert a list of strings to integers"""
         return [int(str_id) for str_id in qs.split(',')]
@@ -96,7 +97,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 'assigned_only',
                 OpenApiTypes.INT,
-                enum=[0,1],
+                enum=[0, 1],
                 description='Filter by items assigned to recipe',
             )
         ]
@@ -136,5 +137,6 @@ class TagViewSet(BaseRecipeAttrViewSet):
 
 class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredients in the db"""
+
     serializer_class = serializers.IngredientSerializer
     queryset = Ingredient.objects.all()
